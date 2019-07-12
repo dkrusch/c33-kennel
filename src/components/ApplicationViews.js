@@ -36,11 +36,37 @@ class ApplicationViews extends Component {
     ]
 
 
+    // state = {
+    //     employees: this.employeesFromAPI,
+    //     locations: this.locationsFromAPI,
+    //     animals: this.animalsFromAPI,
+    //     owners: this.ownersFromAPI
+    // }
+
     state = {
-        employees: this.employeesFromAPI,
-        locations: this.locationsFromAPI,
-        animals: this.animalsFromAPI,
-        owners: this.ownersFromAPI
+        locations: [],
+        animals: [],
+        employees: [],
+        owners: []
+    }
+
+    componentDidMount() {
+        const newState = {}
+
+        fetch("http://localhost:5002/animals")
+            .then(r => r.json())
+            .then(animals => newState.animals = animals)
+            .then(() => fetch("http://localhost:5002/employees")
+            .then(r => r.json()))
+            .then(employees => newState.employees = employees)
+            .then(() => fetch("http://localhost:5002/locations")
+            .then(r => r.json()))
+            .then(locations => newState.locations = locations)
+            .then(() => fetch("http://localhost:5002/owners")
+            .then(r => r.json()))
+            .then(owners => newState.owners = owners)
+            .then(() => this.setState(newState))
+            .then(() => {console.log("state STATE", this.state)})
     }
 
     render() {
