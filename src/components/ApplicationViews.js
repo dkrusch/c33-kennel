@@ -8,41 +8,17 @@ import SearchResults from './searchresults/SearchResults'
 
 
 class ApplicationViews extends Component {
-    // employeesFromAPI = [
-    //     { id: 1, name: "Jessica Younker" },
-    //     { id: 2, name: "Jordan Nelson" },
-    //     { id: 3, name: "Zoe LeBlanc" },
-    //     { id: 4, name: "Blaise Roberts" }
-    // ]
-
-    // locationsFromAPI = [
-    //     { id: 1, name: "Nashville North", address: "500 Circle Way" },
-    //     { id: 2, name: "Nashville South", address: "10101 Binary Court" }
-    // ]
-
-    // animalsFromAPI = [
-    //     { id: 1, name: "Doodles" },
-    //     { id: 2, name: "Jack" },
-    //     { id: 3, name: "Angus" },
-    //     { id: 4, name: "Henley" },
-    //     { id: 5, name: "Derkins" },
-    //     { id: 6, name: "Checkers" }
-    // ]
-
-    // ownersFromAPI = [
-    //     { id: 1, phonenumber: 12342678, name: "Ooodles" },
-    //     { id: 2, phonenumber: 12345678, name: "Oack" },
-    //     { id: 3, phonenumber: 12344678, name: "Oangus" },
-    //     { id: 4, phonenumber: 12385930, name: "Oenley" }
-    // ]
-
-
-    // state = {
-    //     employees: this.employeesFromAPI,
-    //     locations: this.locationsFromAPI,
-    //     animals: this.animalsFromAPI,
-    //     owners: this.ownersFromAPI
-    // }
+    deleteItem = (name, id) => {
+        let newObj = {}
+        return fetch(`http://localhost:5002/${name}/${id}`, {
+            method: "DELETE"
+        })
+        .then(e => e.json())
+        .then(() => fetch(`http://localhost:5002/${name}`))
+        .then(e => e.json())
+        .then(items => newObj[name] = items)
+        .then(() => this.setState(newObj))
+    }
 
     state = {
         locations: [],
@@ -74,16 +50,16 @@ class ApplicationViews extends Component {
         return (
             <React.Fragment>
                 <Route exact path="/" render={(props) => {
-                    return <LocationList locations={this.state.locations} />
+                    return <LocationList deleteItem={this.deleteItem} locations={this.state.locations} />
                 }} />
                 <Route path="/animals" render={(props) => {
-                    return <AnimalList animals={this.state.animals} />
+                    return <AnimalList deleteItem={this.deleteItem} animals={this.state.animals} />
                 }} />
                 <Route path="/employees" render={(props) => {
-                    return <EmployeeList employees={this.state.employees} />
+                    return <EmployeeList deleteItem={this.deleteItem} employees={this.state.employees} />
                 }} />
                 <Route path="/owners" render={(props) => {
-                    return <OwnerList owners={this.state.owners} />
+                    return <OwnerList deleteItem={this.deleteItem} owners={this.state.owners} />
                 }} />
                 <Route path="/search" render={(props) => {
                     console.log("/search", this.props.results)

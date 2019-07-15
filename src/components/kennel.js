@@ -1,9 +1,7 @@
 import React, { Component } from "react"
-import { Redirect } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import NavBar from "./nav/NavBar"
 import ApplicationViews from "./ApplicationViews"
-import SearchResults from "./searchresults/SearchResults"
 
 import "./Kennel.css"
 import "bootstrap/dist/css/bootstrap.min.css"
