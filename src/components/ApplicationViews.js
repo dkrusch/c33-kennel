@@ -4,36 +4,37 @@ import AnimalList from './animal/AnimalList'
 import LocationList from './location/LocationList'
 import EmployeeList from './employee/EmployeeList'
 import OwnerList from './owner/OwnerList'
+import SearchResults from './searchresults/SearchResults'
 
 
 class ApplicationViews extends Component {
-    employeesFromAPI = [
-        { id: 1, name: "Jessica Younker" },
-        { id: 2, name: "Jordan Nelson" },
-        { id: 3, name: "Zoe LeBlanc" },
-        { id: 4, name: "Blaise Roberts" }
-    ]
+    // employeesFromAPI = [
+    //     { id: 1, name: "Jessica Younker" },
+    //     { id: 2, name: "Jordan Nelson" },
+    //     { id: 3, name: "Zoe LeBlanc" },
+    //     { id: 4, name: "Blaise Roberts" }
+    // ]
 
-    locationsFromAPI = [
-        { id: 1, name: "Nashville North", address: "500 Circle Way" },
-        { id: 2, name: "Nashville South", address: "10101 Binary Court" }
-    ]
+    // locationsFromAPI = [
+    //     { id: 1, name: "Nashville North", address: "500 Circle Way" },
+    //     { id: 2, name: "Nashville South", address: "10101 Binary Court" }
+    // ]
 
-    animalsFromAPI = [
-        { id: 1, name: "Doodles" },
-        { id: 2, name: "Jack" },
-        { id: 3, name: "Angus" },
-        { id: 4, name: "Henley" },
-        { id: 5, name: "Derkins" },
-        { id: 6, name: "Checkers" }
-    ]
+    // animalsFromAPI = [
+    //     { id: 1, name: "Doodles" },
+    //     { id: 2, name: "Jack" },
+    //     { id: 3, name: "Angus" },
+    //     { id: 4, name: "Henley" },
+    //     { id: 5, name: "Derkins" },
+    //     { id: 6, name: "Checkers" }
+    // ]
 
-    ownersFromAPI = [
-        { id: 1, phonenumber: 12342678, name: "Ooodles" },
-        { id: 2, phonenumber: 12345678, name: "Oack" },
-        { id: 3, phonenumber: 12344678, name: "Oangus" },
-        { id: 4, phonenumber: 12385930, name: "Oenley" }
-    ]
+    // ownersFromAPI = [
+    //     { id: 1, phonenumber: 12342678, name: "Ooodles" },
+    //     { id: 2, phonenumber: 12345678, name: "Oack" },
+    //     { id: 3, phonenumber: 12344678, name: "Oangus" },
+    //     { id: 4, phonenumber: 12385930, name: "Oenley" }
+    // ]
 
 
     // state = {
@@ -83,6 +84,10 @@ class ApplicationViews extends Component {
                 }} />
                 <Route path="/owners" render={(props) => {
                     return <OwnerList owners={this.state.owners} />
+                }} />
+                <Route path="/search" render={(props) => {
+                    console.log("/search", this.props.results)
+                    return <SearchResults results={this.props.results} />
                 }} />
             </React.Fragment>
         )
