@@ -1,10 +1,6 @@
 {
   "employees": [
     {
-      "id": 1,
-      "name": "Jessica Younker"
-    },
-    {
       "id": 2,
       "name": "Jordan Nelson"
     },
@@ -40,11 +36,6 @@
     }
   ],
   "owners": [
-    {
-      "id": 1,
-      "phonenumber": 12342678,
-      "name": "Ooodles"
-    },
     {
       "id": 2,
       "phonenumber": 12345678,

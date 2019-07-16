@@ -50,7 +50,7 @@ class ApplicationViews extends Component {
         return (
             <React.Fragment>
                 <Route exact path="/" render={(props) => {
-                    return <LocationList deleteItem={this.deleteItem} locations={this.state.locations} />
+                    return <LocationList locations={this.state.locations} />
                 }} />
                 <Route path="/animals" render={(props) => {
                     return <AnimalList deleteItem={this.deleteItem} animals={this.state.animals} />
