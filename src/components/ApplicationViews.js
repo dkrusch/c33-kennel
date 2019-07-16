@@ -7,6 +7,7 @@ import OwnerList from './owner/OwnerList'
 import SearchResults from './searchresults/SearchResults'
 import APIManager from "../modules/APIManager"
 import AnimalDetail from './animal/AnimalDetail'
+import EmployeeDetail from './employee/EmployeeDetail'
 import { withRouter } from 'react-router'
 
 console.log(APIManager)
@@ -101,8 +102,21 @@ class ApplicationViews extends Component {
 
                     return <AnimalDetail animal={animal} dischargeAnimal={this.deleteItem} />
                 }} />
-                <Route path="/employees" render={(props) => {
+                <Route exact path="/employees" render={(props) => {
                     return <EmployeeList deleteItem={this.deleteItem} employees={this.state.employees} />
+                }} />
+                <Route exact path="/employees/:employeeId(\d+)" render={(props) => {
+                    // Find the employee with the id of the route parameter
+                    let employee = this.state.employees.find(employee =>
+                        employee.id === parseInt(props.match.params.employeeId)
+                    )
+
+                    // If the animal wasn't found, create a default one
+                    if (!employee) {
+                        employee = {id:404, name:"404", breed: "Dog not found"}
+                    }
+
+                    return <EmployeeDetail employee={employee} dischargeEmployee={this.deleteItem} />
                 }} />
                 <Route path="/owners" render={(props) => {
                     return <OwnerList deleteItem={this.deleteItem} owners={this.state.owners} />
