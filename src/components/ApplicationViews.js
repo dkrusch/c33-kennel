@@ -5,8 +5,9 @@ import LocationList from './location/LocationList'
 import EmployeeList from './employee/EmployeeList'
 import OwnerList from './owner/OwnerList'
 import SearchResults from './searchresults/SearchResults'
-import AnimalManager from "../modules/AnimalManager"
+import APIManager from "../modules/APIManager"
 
+console.log(APIManager)
 
 class ApplicationViews extends Component {
     deleteItem = (name, id) => {
@@ -32,22 +33,22 @@ class ApplicationViews extends Component {
         const newState = {}
 
         // Example code. Make this fit into how you have written yours.
-        AnimalManager.getAllAnimals().then(allAnimals => {
+        APIManager.getAll("animals").then(allAnimals => {
             this.setState({
                 animals: allAnimals
             })
         })
-        AnimalManager.getAllEmployees().then(allEmployees => {
+        APIManager.getAll("employees").then(allEmployees => {
             this.setState({
                 employees: allEmployees
             })
         })
-        AnimalManager.getAllOwners().then(allOwners => {
+        APIManager.getAll("owners").then(allOwners => {
             this.setState({
                 owners: allOwners
             })
         })
-        AnimalManager.getAllLocations().then(allLocations => {
+        APIManager.getAll("locations").then(allLocations => {
             this.setState({
                 locations: allLocations
             })
