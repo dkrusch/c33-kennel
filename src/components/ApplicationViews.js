@@ -6,6 +6,8 @@ import EmployeeList from './employee/EmployeeList'
 import OwnerList from './owner/OwnerList'
 import SearchResults from './searchresults/SearchResults'
 import APIManager from "../modules/APIManager"
+import AnimalDetail from './animal/AnimalDetail'
+import { withRouter } from 'react-router'
 
 console.log(APIManager)
 
@@ -16,10 +18,11 @@ class ApplicationViews extends Component {
             method: "DELETE"
         })
         .then(e => e.json())
-        .then(() => fetch(`http://localhost:5002/${name}`))
-        .then(e => e.json())
-        .then(items => newObj[name] = items)
-        .then(() => this.setState(newObj))
+        .then(APIManager.getAll(name))
+        .then(group => {
+            this.props.history.push("/${name}")
+            this.setState(newObj[name] = group)
+        })
     }
 
     state = {
@@ -73,8 +76,30 @@ class ApplicationViews extends Component {
                 <Route exact path="/" render={(props) => {
                     return <LocationList locations={this.state.locations} />
                 }} />
-                <Route path="/animals" render={(props) => {
+                <Route exact path="/animals" render={(props) => {
                     return <AnimalList deleteItem={this.deleteItem} animals={this.state.animals} />
+                }} />
+
+                {/*
+                    This is a new route to handle a URL with the following pattern:
+                        http://localhost:3000/animals/1
+
+                    It will not handle the following URL because the `(\d+)`
+                    matches only numbers after the final slash in the URL
+                        http://localhost:3000/animals/jack
+                */}
+                <Route path="/animals/:animalId(\d+)" render={(props) => {
+                    // Find the animal with the id of the route parameter
+                    let animal = this.state.animals.find(animal =>
+                        animal.id === parseInt(props.match.params.animalId)
+                    )
+
+                    // If the animal wasn't found, create a default one
+                    if (!animal) {
+                        animal = {id:404, name:"404", breed: "Dog not found"}
+                    }
+
+                    return <AnimalDetail animal={animal} dischargeAnimal={this.deleteItem} />
                 }} />
                 <Route path="/employees" render={(props) => {
                     return <EmployeeList deleteItem={this.deleteItem} employees={this.state.employees} />
@@ -91,4 +116,4 @@ class ApplicationViews extends Component {
     }
 }
 
-export default ApplicationViews
+export default withRouter(ApplicationViews)

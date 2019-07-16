@@ -28,10 +28,22 @@
     "animals": [
       {
         "id": 5,
+        "breed": "type 3",
         "name": "Derkins"
       },
       {
         "id": 6,
+        "breed": "type 2",
+        "name": "Checkers"
+      },
+      {
+        "id": 5,
+        "breed": "type 2",
+        "name": "Derkins"
+      },
+      {
+        "id": 6,
+        "breed": "type 1",
         "name": "Checkers"
       }
     ],
