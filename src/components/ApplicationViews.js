@@ -38,11 +38,11 @@ class ApplicationViews extends Component {
         locations: [],
         animals: [],
         employees: [],
-        owners: []
+        owners: [],
+        animalOwners: []
     }
 
     componentDidMount() {
-        const newState = {}
 
         // Example code. Make this fit into how you have written yours.
         APIManager.getAll("animals").then(allAnimals => {
@@ -61,8 +61,14 @@ class ApplicationViews extends Component {
             })
         })
         APIManager.getAll("locations").then(allLocations => {
+            console.log(allLocations)
             this.setState({
                 locations: allLocations
+            })
+        })
+        APIManager.getAll("animals_owners").then(allAnimalOwners => {
+            this.setState({
+                animalOwners: allAnimalOwners
             })
         })
             // .then(animals => newState.animals = animals)
@@ -80,19 +86,21 @@ class ApplicationViews extends Component {
     }
 
     render() {
+        console.log(this.state)
         return (
             <React.Fragment>
                 <Route exact path="/" render={(props) => {
-                    if (this.isAuthenticated()) {
-                        return <LocationList locations={this.state.locations} />
-                    } else {
-                        return <Redirect to="/login" />
-                    }
+                    // if (this.isAuthenticated()) {
+
+                    // } else {
+                    //     return <Redirect to="/login" />
+                    // }
+                    return <LocationList locations={this.state.locations} />
                 }} />
                 <Route exact path="/animals" render={(props) => {
                     console.log(this.state)
                     if (this.isAuthenticated()) {
-                        return <AnimalList deleteItem={this.deleteItem} animals={this.state.animals} />
+                        return <AnimalList deleteItem={this.deleteItem} animals={this.state.animals} owners={this.state.owners} animalOwners={this.state.animalOwners}/>
                     } else {
                         return <Redirect to="/login" />
                     }

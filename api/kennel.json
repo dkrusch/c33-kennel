@@ -69,5 +69,37 @@
       "phonenumber": 12385930,
       "name": "Oenley"
     }
+  ],
+  "animals_owners": [
+    {
+      "id": 1,
+      "animal_id": 1,
+      "owner_id": 4
+    },
+    {
+      "id": 2,
+      "animal_id": 3,
+      "owner_id": 3
+    },
+    {
+      "id": 3,
+      "animal_id": 4,
+      "owner_id": 4
+    },
+    {
+      "id": 4,
+      "animal_id": 4,
+      "owner_id": 3
+    },
+    {
+      "id": 5,
+      "animal_id": 6,
+      "owner_id": 2
+    },
+    {
+      "id": 6,
+      "animal_id": 7,
+      "owner_id": 2
+    }
   ]
 }

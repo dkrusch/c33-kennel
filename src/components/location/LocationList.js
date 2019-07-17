@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 
 export default class LocationList extends Component {
     render() {
+        console.log(this.props.locations)
+
         return (
             <section className="locations">
             {
