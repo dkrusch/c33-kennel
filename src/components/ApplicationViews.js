@@ -31,7 +31,7 @@ class ApplicationViews extends Component {
     }
 
     // Check if credentials are in local storage
-    isAuthenticated = () => sessionStorage.getItem("credentials") !== null
+    isAuthenticated = () => sessionStorage.getItem("credentials") !== null || localStorage.getItem("credentials") !== null
 
 
     state = {
@@ -83,11 +83,19 @@ class ApplicationViews extends Component {
         return (
             <React.Fragment>
                 <Route exact path="/" render={(props) => {
-                    return <LocationList locations={this.state.locations} />
+                    if (this.isAuthenticated()) {
+                        return <LocationList locations={this.state.locations} />
+                    } else {
+                        return <Redirect to="/login" />
+                    }
                 }} />
                 <Route exact path="/animals" render={(props) => {
                     console.log(this.state)
-                    return <AnimalList deleteItem={this.deleteItem} animals={this.state.animals} />
+                    if (this.isAuthenticated()) {
+                        return <AnimalList deleteItem={this.deleteItem} animals={this.state.animals} />
+                    } else {
+                        return <Redirect to="/login" />
+                    }
                 }} />
 
                 {/*
@@ -112,11 +120,11 @@ class ApplicationViews extends Component {
                     return <AnimalDetail animal={animal} dischargeAnimal={this.deleteItem} />
                 }} />
                 <Route exact path="/employees" render={(props) => {
-                    // if (this.isAuthenticated()) {
+                    if (this.isAuthenticated()) {
                         return <EmployeeList deleteItem={this.deleteItem} employees={this.state.employees} />
-                    // } else {
-                    //     return <Redirect to="/login" />
-                    // }
+                    } else {
+                        return <Redirect to="/login" />
+                    }
                 }} />
                 <Route exact path="/employees/:employeeId(\d+)" render={(props) => {
                     // Find the employee with the id of the route parameter
@@ -132,11 +140,19 @@ class ApplicationViews extends Component {
                     return <EmployeeDetail employee={employee} dischargeEmployee={this.deleteItem} />
                 }} />
                 <Route path="/owners" render={(props) => {
-                    return <OwnerList deleteItem={this.deleteItem} owners={this.state.owners} />
+                    if (this.isAuthenticated()) {
+                        return <OwnerList deleteItem={this.deleteItem} owners={this.state.owners} />
+                    } else {
+                        return <Redirect to="/login" />
+                    }
                 }} />
                 <Route path="/search" render={(props) => {
                     console.log("/search", this.props.results)
-                    return <SearchResults results={this.props.results} />
+                    if (this.isAuthenticated()) {
+                        return <SearchResults results={this.props.results} />
+                    } else {
+                        return <Redirect to="/login" />
+                    }
                 }} />
                 <Route path="/login" component={Login} />
             </React.Fragment>

@@ -28,6 +28,11 @@
       "breed": "type3"
     },
     {
+      "id": 4,
+      "name": "dog7",
+      "breed": "type3"
+    },
+    {
       "id": 5,
       "name": "dog6",
       "breed": "type3"
@@ -35,6 +40,16 @@
     {
       "id": 9,
       "name": "dog0",
+      "breed": "type3"
+    },
+    {
+      "id": 8,
+      "name": "dog7",
+      "breed": "type3"
+    },
+    {
+      "id": 7,
+      "name": "dog6",
       "breed": "type3"
     }
   ],
