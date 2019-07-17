@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from "react-router-dom"
 import React, { Component } from "react"
 import AnimalList from './animal/AnimalList'
 import LocationList from './location/LocationList'
@@ -9,22 +9,30 @@ import APIManager from "../modules/APIManager"
 import AnimalDetail from './animal/AnimalDetail'
 import EmployeeDetail from './employee/EmployeeDetail'
 import { withRouter } from 'react-router'
+import Login from './authentication/Login'
 
 console.log(APIManager)
 
 class ApplicationViews extends Component {
     deleteItem = (name, id) => {
+        console.log("inside delete item")
         let newObj = {}
         return fetch(`http://localhost:5002/${name}/${id}`, {
             method: "DELETE"
         })
         .then(e => e.json())
-        .then(APIManager.getAll(name))
+        .then(() => APIManager.getAll(name))
         .then(group => {
-            this.props.history.push("/${name}")
-            this.setState(newObj[name] = group)
+            newObj[name] = group
+            this.setState(newObj)
+            console.log(name, newObj, this.state)
+            this.props.history.push(`/${name}`)
         })
     }
+
+    // Check if credentials are in local storage
+    isAuthenticated = () => sessionStorage.getItem("credentials") !== null
+
 
     state = {
         locations: [],
@@ -78,6 +86,7 @@ class ApplicationViews extends Component {
                     return <LocationList locations={this.state.locations} />
                 }} />
                 <Route exact path="/animals" render={(props) => {
+                    console.log(this.state)
                     return <AnimalList deleteItem={this.deleteItem} animals={this.state.animals} />
                 }} />
 
@@ -103,7 +112,11 @@ class ApplicationViews extends Component {
                     return <AnimalDetail animal={animal} dischargeAnimal={this.deleteItem} />
                 }} />
                 <Route exact path="/employees" render={(props) => {
-                    return <EmployeeList deleteItem={this.deleteItem} employees={this.state.employees} />
+                    // if (this.isAuthenticated()) {
+                        return <EmployeeList deleteItem={this.deleteItem} employees={this.state.employees} />
+                    // } else {
+                    //     return <Redirect to="/login" />
+                    // }
                 }} />
                 <Route exact path="/employees/:employeeId(\d+)" render={(props) => {
                     // Find the employee with the id of the route parameter
@@ -125,6 +138,7 @@ class ApplicationViews extends Component {
                     console.log("/search", this.props.results)
                     return <SearchResults results={this.props.results} />
                 }} />
+                <Route path="/login" component={Login} />
             </React.Fragment>
         )
     }

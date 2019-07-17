@@ -1,12 +1,45 @@
 import React, { Component } from "react"
 import "./Animal.css"
 import dog from "./DogIcon.svg"
+import Modal from 'react-modal';
 
+
+
+const customStyles = {
+    content : {
+      top                   : '50%',
+      left                  : '50%',
+      right                 : 'auto',
+      bottom                : 'auto',
+      marginRight           : '-50%',
+      transform             : 'translate(-50%, -50%)'
+    }
+  };
 
 export default class Animal extends Component {
     state = {
         saveDisabled: false
     }
+
+
+    constructor() {
+        super();
+
+        this.state = {
+          modalIsOpen: false
+        };
+
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+      }
+
+      openModal() {
+        this.setState({modalIsOpen: true});
+      }
+
+      closeModal() {
+        this.setState({modalIsOpen: false});
+      }
 
     render() {
         return (
@@ -18,17 +51,106 @@ export default class Animal extends Component {
                             {this.props.animal.name}
                         </h4>
                         <h6 className="card-title">{ this.props.animal.breed }</h6>
-                        <button onClick={
-                                () => {
-                                    this.setState({saveDisabled: true},
-                                    () => this.props.dischargeAnimal("animals", this.props.animal.id))
-                                }
-                            }
-                            disabled={ this.state.saveDisabled }
-                            className="card-link">Delete</button>
+                        <button onClick={this.openModal} className="btn btn-primary">Discharge</button>
+                        <div>
+                            <Modal isOpen={this.state.modalIsOpen}
+                            onRequestClose={this.closeModal}
+                            style={customStyles}
+                            contentLabel="Example Modal">
+                            <h3>Are you sure?</h3>
+                            <button onClick={() => {this.setState({saveDisabled: true},
+                                () => this.props.dischargeAnimal("animals", this.props.animal.id))}}
+                                disabled={ this.state.saveDisabled }
+                                >Yes</button>
+                            <button onClick={this.closeModal}>No</button>
+                            </Modal>
+                        </div>
                     </div>
                 </div>
             </section>
         )
     }
 }
+
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+
+
+// const customStyles = {
+//   content : {
+//     top                   : '50%',
+//     left                  : '50%',
+//     right                 : 'auto',
+//     bottom                : 'auto',
+//     marginRight           : '-50%',
+//     transform             : 'translate(-50%, -50%)'
+//   }
+// };
+
+// // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
+// Modal.setAppElement('#yourAppElement')
+
+// class App extends React.Component {
+//   constructor() {
+//     super();
+
+//     this.state = {
+//       modalIsOpen: false
+//     };
+
+//     this.openModal = this.openModal.bind(this);
+//     this.afterOpenModal = this.afterOpenModal.bind(this);
+//     this.closeModal = this.closeModal.bind(this);
+//   }
+
+//   openModal() {
+//     this.setState({modalIsOpen: true});
+//   }
+
+//   afterOpenModal() {
+//     // references are now sync'd and can be accessed.
+//     this.subtitle.style.color = '#f00';
+//   }
+
+//   closeModal() {
+//     this.setState({modalIsOpen: false});
+//   }
+
+//   render() {
+//     return (
+//       <div>
+//         <button onClick={this.openModal}>Open Modal</button>
+//         <Modal
+//           isOpen={this.state.modalIsOpen}
+        //   onAfterOpen={this.afterOpenModal}
+//           onRequestClose={this.closeModal}
+//           style={customStyles}
+//           contentLabel="Example Modal"
+//         >
+
+//           <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
+//           <button onClick={this.closeModal}>close</button>
+//           <div>I am a modal</div>
+//           <form>
+//             <input />
+//             <button>tab navigation</button>
+//             <button>stays</button>
+//             <button>inside</button>
+//             <button>the modal</button>
+//           </form>
+//         </Modal>
+//       </div>
+//     );
+//   }
+// }
+
+// ReactDOM.render(<App />, appElement);
+
+
+
+
+
+
+
+
+

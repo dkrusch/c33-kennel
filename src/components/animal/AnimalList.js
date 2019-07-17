@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 
 class AnimalList extends Component {
     render() {
+        console.log("renderaoiejf")
         return (
             <section className="animals">
             {
