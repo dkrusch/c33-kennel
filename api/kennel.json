@@ -1,67 +1,105 @@
 {
-    "employees": [
-      {
-        "id": 2,
-        "name": "Jordan Nelson"
-      },
-      {
-        "id": 3,
-        "name": "Zoe LeBlanc"
-      },
-      {
-        "id": 4,
-        "name": "Blaise Roberts"
-      }
-    ],
-    "locations": [
-      {
-        "id": 1,
-        "name": "Nashville North",
-        "address": "500 Circle Way"
-      },
-      {
-        "id": 2,
-        "name": "Nashville South",
-        "address": "10101 Binary Court"
-      }
-    ],
-    "animals": [
-      {
-        "id": 5,
-        "breed": "type 3",
-        "name": "Derkins"
-      },
-      {
-        "id": 6,
-        "breed": "type 2",
-        "name": "Checkers"
-      },
-      {
-        "id": 5,
-        "breed": "type 2",
-        "name": "Derkins"
-      },
-      {
-        "id": 6,
-        "breed": "type 1",
-        "name": "Checkers"
-      }
-    ],
-    "owners": [
-      {
-        "id": 2,
-        "phonenumber": 12345678,
-        "name": "Oack"
-      },
-      {
-        "id": 3,
-        "phonenumber": 12344678,
-        "name": "Oangus"
-      },
-      {
-        "id": 4,
-        "phonenumber": 12385930,
-        "name": "Oenley"
-      }
-    ]
-  }
+  "employees": [
+    {
+      "id": 3,
+      "name": "Zoe LeBlanc"
+    },
+    {
+      "id": 4,
+      "name": "Blaise Roberts"
+    }
+  ],
+  "locations": [
+    {
+      "id": 1,
+      "name": "Nashville North",
+      "address": "500 Circle Way"
+    },
+    {
+      "id": 2,
+      "name": "Nashville South",
+      "address": "10101 Binary Court"
+    }
+  ],
+  "animals": [
+    {
+      "id": 3,
+      "name": "dog0",
+      "breed": "type3"
+    },
+    {
+      "id": 4,
+      "name": "dog7",
+      "breed": "type3"
+    },
+    {
+      "id": 5,
+      "name": "dog6",
+      "breed": "type3"
+    },
+    {
+      "id": 9,
+      "name": "dog0",
+      "breed": "type3"
+    },
+    {
+      "id": 8,
+      "name": "dog7",
+      "breed": "type3"
+    },
+    {
+      "id": 7,
+      "name": "dog6",
+      "breed": "type3"
+    }
+  ],
+  "owners": [
+    {
+      "id": 2,
+      "phonenumber": 12345678,
+      "name": "Oack"
+    },
+    {
+      "id": 3,
+      "phonenumber": 12344678,
+      "name": "Oangus"
+    },
+    {
+      "id": 4,
+      "phonenumber": 12385930,
+      "name": "Oenley"
+    }
+  ],
+  "animals_owners": [
+    {
+      "id": 1,
+      "animal_id": 1,
+      "owner_id": 4
+    },
+    {
+      "id": 2,
+      "animal_id": 3,
+      "owner_id": 3
+    },
+    {
+      "id": 3,
+      "animal_id": 4,
+      "owner_id": 4
+    },
+    {
+      "id": 4,
+      "animal_id": 4,
+      "owner_id": 3
+    },
+    {
+      "id": 5,
+      "animal_id": 6,
+      "owner_id": 2
+    },
+    {
+      "id": 6,
+      "animal_id": 7,
+      "owner_id": 2
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from "react-router-dom"
 import React, { Component } from "react"
 import AnimalList from './animal/AnimalList'
 import LocationList from './location/LocationList'
@@ -7,33 +7,42 @@ import OwnerList from './owner/OwnerList'
 import SearchResults from './searchresults/SearchResults'
 import APIManager from "../modules/APIManager"
 import AnimalDetail from './animal/AnimalDetail'
+import EmployeeDetail from './employee/EmployeeDetail'
 import { withRouter } from 'react-router'
+import Login from './authentication/Login'
 
 console.log(APIManager)
 
 class ApplicationViews extends Component {
     deleteItem = (name, id) => {
+        console.log("inside delete item")
         let newObj = {}
         return fetch(`http://localhost:5002/${name}/${id}`, {
             method: "DELETE"
         })
         .then(e => e.json())
-        .then(APIManager.getAll(name))
+        .then(() => APIManager.getAll(name))
         .then(group => {
-            this.props.history.push("/${name}")
-            this.setState(newObj[name] = group)
+            newObj[name] = group
+            this.setState(newObj)
+            console.log(name, newObj, this.state)
+            this.props.history.push(`/${name}`)
         })
     }
+
+    // Check if credentials are in local storage
+    isAuthenticated = () => sessionStorage.getItem("credentials") !== null || localStorage.getItem("credentials") !== null
+
 
     state = {
         locations: [],
         animals: [],
         employees: [],
-        owners: []
+        owners: [],
+        animalOwners: []
     }
 
     componentDidMount() {
-        const newState = {}
 
         // Example code. Make this fit into how you have written yours.
         APIManager.getAll("animals").then(allAnimals => {
@@ -52,8 +61,14 @@ class ApplicationViews extends Component {
             })
         })
         APIManager.getAll("locations").then(allLocations => {
+            console.log(allLocations)
             this.setState({
                 locations: allLocations
+            })
+        })
+        APIManager.getAll("animals_owners").then(allAnimalOwners => {
+            this.setState({
+                animalOwners: allAnimalOwners
             })
         })
             // .then(animals => newState.animals = animals)
@@ -71,13 +86,24 @@ class ApplicationViews extends Component {
     }
 
     render() {
+        console.log(this.state)
         return (
             <React.Fragment>
                 <Route exact path="/" render={(props) => {
+                    // if (this.isAuthenticated()) {
+
+                    // } else {
+                    //     return <Redirect to="/login" />
+                    // }
                     return <LocationList locations={this.state.locations} />
                 }} />
                 <Route exact path="/animals" render={(props) => {
-                    return <AnimalList deleteItem={this.deleteItem} animals={this.state.animals} />
+                    console.log(this.state)
+                    if (this.isAuthenticated()) {
+                        return <AnimalList deleteItem={this.deleteItem} animals={this.state.animals} owners={this.state.owners} animalOwners={this.state.animalOwners}/>
+                    } else {
+                        return <Redirect to="/login" />
+                    }
                 }} />
 
                 {/*
@@ -101,16 +127,42 @@ class ApplicationViews extends Component {
 
                     return <AnimalDetail animal={animal} dischargeAnimal={this.deleteItem} />
                 }} />
-                <Route path="/employees" render={(props) => {
-                    return <EmployeeList deleteItem={this.deleteItem} employees={this.state.employees} />
+                <Route exact path="/employees" render={(props) => {
+                    if (this.isAuthenticated()) {
+                        return <EmployeeList deleteItem={this.deleteItem} employees={this.state.employees} />
+                    } else {
+                        return <Redirect to="/login" />
+                    }
+                }} />
+                <Route exact path="/employees/:employeeId(\d+)" render={(props) => {
+                    // Find the employee with the id of the route parameter
+                    let employee = this.state.employees.find(employee =>
+                        employee.id === parseInt(props.match.params.employeeId)
+                    )
+
+                    // If the animal wasn't found, create a default one
+                    if (!employee) {
+                        employee = {id:404, name:"404", breed: "Dog not found"}
+                    }
+
+                    return <EmployeeDetail employee={employee} dischargeEmployee={this.deleteItem} />
                 }} />
                 <Route path="/owners" render={(props) => {
-                    return <OwnerList deleteItem={this.deleteItem} owners={this.state.owners} />
+                    if (this.isAuthenticated()) {
+                        return <OwnerList deleteItem={this.deleteItem} owners={this.state.owners} />
+                    } else {
+                        return <Redirect to="/login" />
+                    }
                 }} />
                 <Route path="/search" render={(props) => {
                     console.log("/search", this.props.results)
-                    return <SearchResults results={this.props.results} />
+                    if (this.isAuthenticated()) {
+                        return <SearchResults results={this.props.results} />
+                    } else {
+                        return <Redirect to="/login" />
+                    }
                 }} />
+                <Route path="/login" component={Login} />
             </React.Fragment>
         )
     }
